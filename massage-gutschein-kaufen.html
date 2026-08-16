@@ -215,23 +215,18 @@
         <input type="text" id="city" autocomplete="address-level2" required>
       </div>
     </div>
-    <div class="field-row">
-      <div class="field">
-        <label for="country">Land *</label>
-        <select id="country" required>
-          <option value="DE" selected>Deutschland</option>
-          <option value="AT">Österreich</option>
-          <option value="CH">Schweiz</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="phone">Telefon <span class="optional">(optional)</span></label>
-        <input type="tel" id="phone" autocomplete="tel">
-      </div>
+    <div class="field">
+      <label for="phone">Telefon <span class="optional">(optional)</span></label>
+      <input type="tel" id="phone" autocomplete="tel">
     </div>
     <div class="field">
       <label for="buyerEmail">E-Mail-Adresse *</label>
       <input type="email" id="buyerEmail" autocomplete="email" required>
+    </div>
+
+    <div class="paypal-note shipping-note">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 11l9-7 9 7M5 10v10h14V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Der Kauf und Versand unserer Gutscheine ist derzeit ausschließlich innerhalb Deutschlands möglich.</span>
     </div>
 
     <div class="paypal-note">
@@ -299,7 +294,7 @@
   const ppEmail = document.getElementById('ppEmail');
   const errorMsg = document.getElementById('errorMsg');
   const form = document.getElementById('voucherForm');
-  const requiredAddressFields = ['firstName', 'lastName', 'street', 'zip', 'city', 'country', 'buyerEmail'];
+  const requiredAddressFields = ['firstName', 'lastName', 'street', 'zip', 'city', 'buyerEmail'];
   let selectedAmount = null;
 
   function selectTile(tile){
@@ -366,7 +361,6 @@
     const street = document.getElementById('street').value.trim();
     const zip = document.getElementById('zip').value.trim();
     const city = document.getElementById('city').value.trim();
-    const country = document.getElementById('country').value;
     const phone = document.getElementById('phone').value.trim();
     const buyerEmail = document.getElementById('buyerEmail').value.trim();
 
@@ -377,7 +371,6 @@
     ppAddress1.value = street;
     ppCity.value = city;
     ppZip.value = zip;
-    ppCountry.value = country;
     ppEmail.value = buyerEmail;
 
     const parts = [];
