@@ -36,6 +36,7 @@
   .amount-custom .field-wrap{ position:relative; flex:1; }
   .amount-custom .field-wrap span{ position:absolute; right:16px; top:50%; transform:translateY(-50%); color:var(--ink-soft); }
 
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
   .field{ margin-bottom:20px; }
   .field label{ display:block; font-size:.85rem; color:var(--ink); margin-bottom:8px; font-weight:500; }
   .field .optional{ color:var(--ink-soft); font-weight:300; }
@@ -74,7 +75,17 @@
   .error-msg{ color:#a3432c; font-size:.82rem; margin-top:10px; display:none; }
   .error-msg.show{ display:block; }
 
-  @media (max-width:600px){ .amount-grid{ grid-template-columns:repeat(2,1fr); } .order-card{ padding:36px 24px; } }
+  .field select{
+    width:100%; padding:14px 16px; border:1.5px solid var(--line); border-radius:10px;
+    font-family:var(--ff-sans); font-size:.95rem; color:var(--ink); background:var(--cream);
+  }
+  .field select:focus{ outline:none; border-color:var(--sage-500); }
+
+  @media (max-width:600px){
+    .amount-grid{ grid-template-columns:repeat(2,1fr); }
+    .order-card{ padding:36px 24px; }
+    .field-row{ grid-template-columns:1fr; gap:0; }
+  }
 </style>
 </head>
 <body>
@@ -129,7 +140,15 @@
     <input type="hidden" name="item_name" id="ppItemName" value="SpaOase Massage-Gutschein">
     <input type="hidden" name="amount" id="ppAmount" value="">
     <input type="hidden" name="custom" id="ppCustom" value="">
-    <input type="hidden" name="no_shipping" value="1">
+    <input type="hidden" name="no_shipping" value="2">
+    <input type="hidden" name="address_override" value="1">
+    <input type="hidden" name="first_name" id="ppFirstName" value="">
+    <input type="hidden" name="last_name" id="ppLastName" value="">
+    <input type="hidden" name="address1" id="ppAddress1" value="">
+    <input type="hidden" name="city" id="ppCity" value="">
+    <input type="hidden" name="zip" id="ppZip" value="">
+    <input type="hidden" name="country" id="ppCountry" value="DE">
+    <input type="hidden" name="email" id="ppEmail" value="">
     <input type="hidden" name="return" value="https://haraldhefter.github.io/testsite/gutschein-danke.html">
     <input type="hidden" name="cancel_return" value="https://haraldhefter.github.io/testsite/massage-gutschein-kaufen.html">
 
@@ -167,9 +186,52 @@
       <label for="message">Persönliche Nachricht <span class="optional">(optional)</span></label>
       <textarea id="message"></textarea>
     </div>
+
+    <p class="order-step">Schritt 3</p>
+    <h2>Ihre Rechnungsanschrift</h2>
+    <p class="order-hint">Diese Angaben benötigen wir für die Rechnung und um Ihnen den Gutschein zusenden zu können.</p>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="firstName">Vorname *</label>
+        <input type="text" id="firstName" autocomplete="given-name" required>
+      </div>
+      <div class="field">
+        <label for="lastName">Nachname *</label>
+        <input type="text" id="lastName" autocomplete="family-name" required>
+      </div>
+    </div>
     <div class="field">
-      <label for="buyerEmail">Ihre E-Mail-Adresse <span class="optional">(für Rückfragen zum Gutschein)</span></label>
-      <input type="email" id="buyerEmail" autocomplete="email">
+      <label for="street">Straße, Nr. *</label>
+      <input type="text" id="street" autocomplete="street-address" required>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="zip">Postleitzahl *</label>
+        <input type="text" id="zip" autocomplete="postal-code" inputmode="numeric" required>
+      </div>
+      <div class="field">
+        <label for="city">Stadt *</label>
+        <input type="text" id="city" autocomplete="address-level2" required>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="country">Land *</label>
+        <select id="country" required>
+          <option value="DE" selected>Deutschland</option>
+          <option value="AT">Österreich</option>
+          <option value="CH">Schweiz</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="phone">Telefon <span class="optional">(optional)</span></label>
+        <input type="tel" id="phone" autocomplete="tel">
+      </div>
+    </div>
+    <div class="field">
+      <label for="buyerEmail">E-Mail-Adresse *</label>
+      <input type="email" id="buyerEmail" autocomplete="email" required>
     </div>
 
     <div class="paypal-note">
@@ -228,8 +290,16 @@
   const ppAmount = document.getElementById('ppAmount');
   const ppItemName = document.getElementById('ppItemName');
   const ppCustom = document.getElementById('ppCustom');
+  const ppFirstName = document.getElementById('ppFirstName');
+  const ppLastName = document.getElementById('ppLastName');
+  const ppAddress1 = document.getElementById('ppAddress1');
+  const ppCity = document.getElementById('ppCity');
+  const ppZip = document.getElementById('ppZip');
+  const ppCountry = document.getElementById('ppCountry');
+  const ppEmail = document.getElementById('ppEmail');
   const errorMsg = document.getElementById('errorMsg');
   const form = document.getElementById('voucherForm');
+  const requiredAddressFields = ['firstName', 'lastName', 'street', 'zip', 'city', 'country', 'buyerEmail'];
   let selectedAmount = null;
 
   function selectTile(tile){
@@ -268,15 +338,20 @@
     validate();
   }
 
+  function addressFilled(){
+    return requiredAddressFields.every(id => document.getElementById(id).value.trim() !== '');
+  }
+
   function validate(){
-    const valid = selectedAmount && selectedAmount >= 10 && consentCheck.checked;
+    const valid = selectedAmount && selectedAmount >= 10 && consentCheck.checked && addressFilled();
     payBtn.disabled = !valid;
   }
 
   consentCheck.addEventListener('change', validate);
+  requiredAddressFields.forEach(id => document.getElementById(id).addEventListener('input', validate));
 
   form.addEventListener('submit', (e) => {
-    if (!selectedAmount || selectedAmount < 10 || !consentCheck.checked) {
+    if (!selectedAmount || selectedAmount < 10 || !consentCheck.checked || !addressFilled()) {
       e.preventDefault();
       errorMsg.classList.add('show');
       return;
@@ -286,15 +361,29 @@
     const recipient = document.getElementById('recipientName').value.trim();
     const occasion = document.getElementById('occasion').value.trim();
     const message = document.getElementById('message').value.trim();
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const street = document.getElementById('street').value.trim();
+    const zip = document.getElementById('zip').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const country = document.getElementById('country').value;
+    const phone = document.getElementById('phone').value.trim();
     const buyerEmail = document.getElementById('buyerEmail').value.trim();
 
     ppAmount.value = selectedAmount.toFixed(2);
     ppItemName.value = 'SpaOase Massage-Gutschein (' + selectedAmount.toFixed(2) + ' EUR)';
+    ppFirstName.value = firstName;
+    ppLastName.value = lastName;
+    ppAddress1.value = street;
+    ppCity.value = city;
+    ppZip.value = zip;
+    ppCountry.value = country;
+    ppEmail.value = buyerEmail;
 
     const parts = [];
     if (recipient) parts.push('Für: ' + recipient);
     if (occasion) parts.push('Anlass: ' + occasion);
-    if (buyerEmail) parts.push('Kontakt-E-Mail: ' + buyerEmail);
+    if (phone) parts.push('Telefon: ' + phone);
     if (message) parts.push('Nachricht: ' + message);
     ppCustom.value = parts.join(' | ').slice(0, 255);
   });
