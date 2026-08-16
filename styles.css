@@ -134,6 +134,14 @@ a:focus-visible, button:focus-visible, .btn:focus-visible{
 .logo-mark.light{ color:var(--cream); font-size:1.9rem; }
 .logo-mark.light em{ color:var(--gold-light); }
 .logo-sub{ font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); margin-top:2px; }
+
+/* brand logo image (white wordmark, only legible on dark backgrounds) */
+.header-logo-img{ display:none; height:34px; width:auto; margin-bottom:3px; }
+.footer-logo-img{ height:46px; width:auto; }
+/* header over the dark hero (not yet scrolled): show image logo, hide text logo */
+.site-header:not(.scrolled) .header-logo-img{ display:block; }
+.site-header:not(.scrolled) .text-logo{ display:none; }
+.site-header:not(.scrolled) .logo-sub{ color:rgba(248,244,236,.75); }
 .main-nav{ display:flex; gap:2.2vw; }
 .main-nav a{
   font-size:.88rem; color:var(--ink); position:relative; padding:4px 0; letter-spacing:.01em;
