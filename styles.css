@@ -120,17 +120,17 @@ a:focus-visible, button:focus-visible, .btn:focus-visible{
 /* ============ HEADER ============ */
 .site-header{
   position:fixed; top:0; left:0; width:100%; z-index:1000;
-  padding:16px 5vw; display:flex; justify-content:center;
+  padding:12px 5vw; display:flex; justify-content:center;
   background:rgba(35,47,38,.88); backdrop-filter:blur(14px);
   box-shadow:0 8px 30px -18px rgba(0,0,0,.4);
   transition:padding .4s var(--ease), box-shadow .4s var(--ease);
 }
 .site-header.scrolled{
-  padding:11px 5vw; box-shadow:0 10px 34px -16px rgba(0,0,0,.55);
+  padding:9px 5vw; box-shadow:0 10px 34px -16px rgba(0,0,0,.55);
 }
 .header-inner{ width:100%; max-width:1360px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
 .logo{ display:flex; flex-direction:column; line-height:1; }
-.header-logo-img{ display:block; height:36px; width:auto; }
+.header-logo-img{ display:block; height:72px; width:auto; }
 .footer-logo-img{ height:46px; width:auto; }
 .main-nav{ display:flex; gap:2.2vw; }
 .main-nav a{
@@ -164,7 +164,7 @@ a:focus-visible, button:focus-visible, .btn:focus-visible{
 /* ============ HERO ============ */
 .hero{
   position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center;
-  overflow:hidden; padding-top:80px;
+  overflow:hidden; padding-top:120px;
 }
 .hero-bg{
   position:absolute; inset:0; z-index:0;
