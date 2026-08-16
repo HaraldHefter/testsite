@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   // Scroll-driven header, progress bar, float CTA, parallax
   const onScroll = () => {
     const y = window.scrollY;
@@ -18,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const docH = document.documentElement.scrollHeight - window.innerHeight;
     progressBar.style.width = (docH > 0 ? (y / docH) * 100 : 0) + '%';
+
+    if (reducedMotion) return;
 
     if (heroBg) {
       const heroH = document.querySelector('.hero').offsetHeight;
@@ -37,10 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Mobile nav
   if (burger) {
     burger.addEventListener('click', () => {
-      mobileNav.classList.toggle('open');
-      burger.classList.toggle('active');
+      const isOpen = mobileNav.classList.toggle('open');
+      burger.classList.toggle('active', isOpen);
+      burger.setAttribute('aria-expanded', String(isOpen));
     });
-    mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileNav.classList.remove('open')));
+    mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }));
   }
 
   // Reveal on scroll
@@ -62,6 +70,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!entry.isIntersecting) return;
       const el = entry.target;
       const target = parseInt(el.dataset.count, 10);
+      if (reducedMotion) {
+        el.textContent = target;
+        counterIO.unobserve(el);
+        return;
+      }
       const duration = 1400;
       const start = performance.now();
       const step = (now) => {
@@ -79,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Custom cursor (desktop only)
   const dot = document.getElementById('cursorDot');
   const ring = document.getElementById('cursorRing');
-  if (window.matchMedia('(hover:hover)').matches && dot && ring) {
+  if (!reducedMotion && window.matchMedia('(hover:hover)').matches && dot && ring) {
     let rx = 0, ry = 0, mx = 0, my = 0;
     document.addEventListener('mousemove', (e) => {
       dot.style.left = e.clientX + 'px';
