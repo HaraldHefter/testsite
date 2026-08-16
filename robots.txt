@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://haraldhefter.github.io/testsite/sitemap.xml
