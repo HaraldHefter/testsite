@@ -358,9 +358,12 @@
   consentCheck.addEventListener('change', validate);
   requiredAddressFields.forEach(id => document.getElementById(id).addEventListener('input', validate));
 
-  form.addEventListener('submit', (e) => {
+  const FORMWARD_ENDPOINT = 'https://forms.formward.eu/f/1101bd34-bbee-43e4-9c00-5a9554f15edd';
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
     if (!selectedAmount || selectedAmount < 10 || !consentCheck.checked || !addressFilled()) {
-      e.preventDefault();
       errorMsg.classList.add('show');
       return;
     }
@@ -392,6 +395,32 @@
     if (phone) parts.push('Telefon: ' + phone);
     if (message) parts.push('Nachricht: ' + message);
     ppCustom.value = parts.join(' | ').slice(0, 255);
+
+    payBtn.disabled = true;
+    payBtn.textContent = 'Wird verarbeitet …';
+
+    const orderSummary = [
+      'Betrag: ' + selectedAmount.toFixed(2) + ' €',
+      'Name: ' + firstName + ' ' + lastName,
+      'Adresse: ' + street + ', ' + zip + ' ' + city,
+      phone ? 'Telefon: ' + phone : null,
+      'E-Mail: ' + buyerEmail,
+      recipient ? 'Empfänger: ' + recipient : null,
+      occasion ? 'Anlass: ' + occasion : null,
+      message ? 'Nachricht: ' + message : null
+    ].filter(Boolean).join('\n');
+
+    try {
+      const fd = new FormData();
+      fd.append('name', firstName + ' ' + lastName);
+      fd.append('email', buyerEmail);
+      fd.append('message', orderSummary);
+      await fetch(FORMWARD_ENDPOINT, { method: 'POST', body: fd });
+    } catch (err) {
+      // Bestellung soll auch bei Formward-Ausfall nicht blockiert werden.
+    }
+
+    form.submit();
   });
 })();
 </script>
