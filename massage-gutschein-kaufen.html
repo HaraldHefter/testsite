@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Massage-Gutschein kaufen | SpaOase Faszien Massagen Wiesbaden</title>
+<meta name="description" content="Verschenken Sie einen Massage-Gutschein der SpaOase Wiesbaden. Betrag wählen, bequem per PayPal bezahlen, Gutschein wird Ihnen per E-Mail zugesandt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .gutschein-hero{ max-width:900px; margin:0 auto; padding:220px 24px 20px; text-align:center; }
+  .gutschein-hero h1{ font-size:clamp(2.4rem,4.4vw,3.4rem); margin:14px 0 20px; }
+  .gutschein-hero p{ color:var(--ink-soft); max-width:620px; margin:0 auto; font-weight:300; line-height:1.7; }
+
+  .order-wrap{ max-width:760px; margin:70px auto 120px; padding:0 5vw; }
+  .order-card{
+    background:var(--paper); border:1px solid var(--line); border-radius:22px; padding:48px 44px;
+    box-shadow:var(--shadow-soft);
+  }
+  .order-step{ font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--terracotta-text); margin-bottom:8px; font-weight:500; }
+  .order-card h2{ font-size:1.3rem; margin-bottom:6px; }
+  .order-hint{ font-size:.85rem; color:var(--ink-soft); margin-bottom:22px; font-weight:300; }
+
+  .amount-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:14px; }
+  .amount-tile{
+    display:flex; align-items:center; justify-content:center; padding:16px 8px;
+    border:1.5px solid var(--line); border-radius:12px; font-family:var(--ff-serif); font-size:1.15rem;
+    color:var(--sage-900); cursor:pointer; background:var(--cream); transition:.25s var(--ease);
+  }
+  .amount-tile:hover{ border-color:var(--gold); }
+  .amount-tile.active{ border-color:var(--sage-900); background:var(--sage-900); color:var(--cream); }
+  .amount-custom{ display:flex; align-items:center; gap:10px; margin-bottom:32px; }
+  .amount-custom label{ font-size:.85rem; color:var(--ink-soft); white-space:nowrap; }
+  .amount-custom .field-wrap{ position:relative; flex:1; }
+  .amount-custom .field-wrap span{ position:absolute; right:16px; top:50%; transform:translateY(-50%); color:var(--ink-soft); }
+
+  .field{ margin-bottom:20px; }
+  .field label{ display:block; font-size:.85rem; color:var(--ink); margin-bottom:8px; font-weight:500; }
+  .field .optional{ color:var(--ink-soft); font-weight:300; }
+  .field input, .field textarea{
+    width:100%; padding:14px 16px; border:1.5px solid var(--line); border-radius:10px;
+    font-family:var(--ff-sans); font-size:.95rem; color:var(--ink); background:var(--cream);
+    transition:border-color .25s var(--ease);
+  }
+  .field input:focus, .field textarea:focus{ outline:none; border-color:var(--sage-500); }
+  .field textarea{ resize:vertical; min-height:90px; }
+
+  .consent{ display:flex; align-items:flex-start; gap:12px; margin:28px 0; font-size:.85rem; color:var(--ink-soft); line-height:1.6; }
+  .consent input{ margin-top:4px; width:18px; height:18px; accent-color:var(--sage-900); flex-shrink:0; }
+
+  .paypal-note{
+    display:flex; gap:14px; align-items:flex-start; background:var(--cream-2); border-radius:14px;
+    padding:20px 22px; margin-bottom:28px; font-size:.85rem; color:var(--ink-soft); line-height:1.6;
+  }
+  .paypal-note svg{ width:22px; height:22px; flex-shrink:0; color:var(--sage-700); margin-top:2px; }
+
+  .order-total{ display:flex; justify-content:space-between; align-items:baseline; padding:18px 0; border-top:1px solid var(--line); margin-bottom:24px; }
+  .order-total span:first-child{ color:var(--ink-soft); font-size:.9rem; }
+  .order-total span:last-child{ font-family:var(--ff-serif); font-size:1.8rem; color:var(--gold-text); }
+
+  .pay-btn{
+    width:100%; border:none; background:#ffc439; color:#1a1a1a; font-family:var(--ff-sans);
+    font-weight:600; font-size:1rem; padding:1.05em 2em; border-radius:100px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    transition:transform .35s var(--ease), box-shadow .35s var(--ease), opacity .25s;
+  }
+  .pay-btn:hover{ transform:translateY(-3px); box-shadow:0 14px 30px -14px rgba(0,0,0,.4); }
+  .pay-btn:disabled{ opacity:.5; cursor:not-allowed; transform:none; box-shadow:none; }
+  .pay-btn .pp-logo{ font-style:italic; font-weight:800; font-size:1.05rem; }
+  .pay-btn .pp-logo em{ font-style:italic; color:#003087; }
+
+  .error-msg{ color:#a3432c; font-size:.82rem; margin-top:10px; display:none; }
+  .error-msg.show{ display:block; }
+
+  @media (max-width:600px){ .amount-grid{ grid-template-columns:repeat(2,1fr); } .order-card{ padding:36px 24px; } }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+<div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <img src="Logo_color_white@1x.svg" alt="SpaOase Faszien Massagen Wiesbaden" class="header-logo-img">
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="Hauptnavigation">
+      <a href="index.html#ueber">Über uns</a>
+      <a href="index.html#massage">Faszien Massage</a>
+      <a href="massage-angebot.html">Angebot &amp; Preise</a>
+      <a href="massage-gutschein-kaufen.html">Gutschein kaufen</a>
+      <a href="index.html#kontakt">Kontakt</a>
+    </nav>
+    <a href="https://app.cituro.com/booking/faszien-massagen-wiesbaden" target="_blank" rel="noopener" class="btn btn-primary btn-small nav-cta">Termin buchen</a>
+    <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile Navigation">
+  <a href="index.html#ueber">Über uns</a>
+  <a href="index.html#massage">Faszien Massage</a>
+  <a href="massage-angebot.html">Angebot &amp; Preise</a>
+  <a href="massage-gutschein-kaufen.html">Gutschein kaufen</a>
+  <a href="index.html#kontakt">Kontakt</a>
+  <a href="https://app.cituro.com/booking/faszien-massagen-wiesbaden" target="_blank" rel="noopener" class="btn btn-light">Termin buchen</a>
+</nav>
+
+<main id="main">
+
+<section class="gutschein-hero">
+  <p class="eyebrow center on-light reveal-up">Verschenken Sie Leichtigkeit</p>
+  <h1 class="reveal-up delay-1">Massage-Gutschein kaufen.</h1>
+  <p class="reveal-up delay-2">Wählen Sie einen Betrag, bezahlen Sie sicher per PayPal &mdash; wir senden Ihnen den Gutschein anschließend persönlich per E-Mail zu.</p>
+</section>
+
+<section class="order-wrap">
+  <form class="order-card reveal-up" id="voucherForm" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+
+    <input type="hidden" name="cmd" value="_xclick">
+    <input type="hidden" name="business" value="c.kissener@spaoase.com">
+    <input type="hidden" name="currency_code" value="EUR">
+    <input type="hidden" name="item_name" id="ppItemName" value="SpaOase Massage-Gutschein">
+    <input type="hidden" name="amount" id="ppAmount" value="">
+    <input type="hidden" name="custom" id="ppCustom" value="">
+    <input type="hidden" name="no_shipping" value="1">
+    <input type="hidden" name="return" value="https://haraldhefter.github.io/testsite/gutschein-danke.html">
+    <input type="hidden" name="cancel_return" value="https://haraldhefter.github.io/testsite/massage-gutschein-kaufen.html">
+
+    <p class="order-step">Schritt 1</p>
+    <h2>Betrag wählen</h2>
+    <p class="order-hint">Alle Beträge in Euro.</p>
+
+    <div class="amount-grid" role="group" aria-label="Gutschein-Betrag auswählen">
+      <div class="amount-tile" data-amount="30" tabindex="0" role="button" aria-pressed="false">30&nbsp;€</div>
+      <div class="amount-tile" data-amount="50" tabindex="0" role="button" aria-pressed="false">50&nbsp;€</div>
+      <div class="amount-tile" data-amount="75" tabindex="0" role="button" aria-pressed="false">75&nbsp;€</div>
+      <div class="amount-tile" data-amount="100" tabindex="0" role="button" aria-pressed="false">100&nbsp;€</div>
+    </div>
+    <div class="amount-custom">
+      <label for="customAmount">Individueller Betrag</label>
+      <div class="field-wrap">
+        <input type="number" id="customAmount" min="10" max="1000" step="1" placeholder="z. B. 65" inputmode="numeric">
+        <span aria-hidden="true">€</span>
+      </div>
+    </div>
+
+    <p class="order-step">Schritt 2</p>
+    <h2>Für wen ist der Gutschein?</h2>
+    <p class="order-hint">Diese Angaben helfen uns, den Gutschein persönlich zu gestalten &mdash; optional.</p>
+
+    <div class="field">
+      <label for="recipientName">Name der beschenkten Person <span class="optional">(optional)</span></label>
+      <input type="text" id="recipientName" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="occasion">Anlass <span class="optional">(optional)</span></label>
+      <input type="text" id="occasion" placeholder="z. B. Geburtstag, Muttertag, Weihnachten" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="message">Persönliche Nachricht <span class="optional">(optional)</span></label>
+      <textarea id="message"></textarea>
+    </div>
+    <div class="field">
+      <label for="buyerEmail">Ihre E-Mail-Adresse <span class="optional">(für Rückfragen zum Gutschein)</span></label>
+      <input type="email" id="buyerEmail" autocomplete="email">
+    </div>
+
+    <div class="paypal-note">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9.25" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>Nach erfolgreicher Zahlung per PayPal erhalten wir automatisch Ihre Bestellung. Wir erstellen Ihren persönlichen Gutschein von Hand und senden ihn Ihnen &mdash; in der Regel innerhalb eines Werktages &mdash; als PDF per E-Mail zu.</span>
+    </div>
+
+    <label class="consent">
+      <input type="checkbox" id="consentCheck" required>
+      <span>Ich habe die <a href="agb.html">AGB</a> und die <a href="widerruf.html">Widerrufsbelehrung</a> gelesen und akzeptiere diese.</span>
+    </label>
+
+    <div class="order-total">
+      <span>Gesamtbetrag</span>
+      <span id="totalDisplay">&ndash;</span>
+    </div>
+
+    <button type="submit" class="pay-btn" id="payBtn" disabled>
+      Jetzt bezahlen mit <span class="pp-logo">Pay<em>Pal</em></span>
+    </button>
+    <p class="error-msg" id="errorMsg">Bitte wählen Sie einen Betrag und akzeptieren Sie die Bedingungen.</p>
+  </form>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <img src="Logo_color_white@1x.svg" alt="SpaOase Faszien Massagen Wiesbaden" class="footer-logo-img">
+      <p>Faszien Massagen Wiesbaden &mdash; wir lieben, was wir tun.</p>
+    </div>
+    <a href="https://app.cituro.com/booking/faszien-massagen-wiesbaden" target="_blank" rel="noopener" class="btn btn-light">Termin buchen</a>
+  </div>
+  <nav class="footer-links" aria-label="Rechtliches">
+    <a href="impressum.html">Impressum</a>
+    <a href="agb.html">AGB</a>
+    <a href="widerruf.html">Widerrufsbelehrung</a>
+    <a href="versand.html">Liefer- &amp; Zahlungsbedingungen</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="index.html">Zur Startseite</a>
+  </nav>
+  <p class="footer-copy">&copy; 2015&ndash;<span id="year"></span> SpaOase Faszien Massagen Wiesbaden</p>
+</footer>
+
+<a href="https://app.cituro.com/booking/faszien-massagen-wiesbaden" target="_blank" rel="noopener" class="float-cta">Termin buchen</a>
+
+<script src="script.js"></script>
+<script>
+(function(){
+  const tiles = document.querySelectorAll('.amount-tile');
+  const customInput = document.getElementById('customAmount');
+  const totalDisplay = document.getElementById('totalDisplay');
+  const payBtn = document.getElementById('payBtn');
+  const consentCheck = document.getElementById('consentCheck');
+  const ppAmount = document.getElementById('ppAmount');
+  const ppItemName = document.getElementById('ppItemName');
+  const ppCustom = document.getElementById('ppCustom');
+  const errorMsg = document.getElementById('errorMsg');
+  const form = document.getElementById('voucherForm');
+  let selectedAmount = null;
+
+  function selectTile(tile){
+    tiles.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-pressed', 'false'); });
+    tile.classList.add('active');
+    tile.setAttribute('aria-pressed', 'true');
+    selectedAmount = parseFloat(tile.dataset.amount);
+    customInput.value = '';
+    updateTotal();
+  }
+
+  tiles.forEach(tile => {
+    tile.addEventListener('click', () => selectTile(tile));
+    tile.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectTile(tile); }
+    });
+  });
+
+  customInput.addEventListener('input', () => {
+    const val = parseFloat(customInput.value);
+    if (val > 0) {
+      tiles.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-pressed', 'false'); });
+      selectedAmount = val;
+    } else {
+      selectedAmount = null;
+    }
+    updateTotal();
+  });
+
+  function updateTotal(){
+    if (selectedAmount && selectedAmount >= 10) {
+      totalDisplay.textContent = selectedAmount.toFixed(2).replace('.', ',') + ' €';
+    } else {
+      totalDisplay.textContent = '–';
+    }
+    validate();
+  }
+
+  function validate(){
+    const valid = selectedAmount && selectedAmount >= 10 && consentCheck.checked;
+    payBtn.disabled = !valid;
+  }
+
+  consentCheck.addEventListener('change', validate);
+
+  form.addEventListener('submit', (e) => {
+    if (!selectedAmount || selectedAmount < 10 || !consentCheck.checked) {
+      e.preventDefault();
+      errorMsg.classList.add('show');
+      return;
+    }
+    errorMsg.classList.remove('show');
+
+    const recipient = document.getElementById('recipientName').value.trim();
+    const occasion = document.getElementById('occasion').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const buyerEmail = document.getElementById('buyerEmail').value.trim();
+
+    ppAmount.value = selectedAmount.toFixed(2);
+    ppItemName.value = 'SpaOase Massage-Gutschein (' + selectedAmount.toFixed(2) + ' EUR)';
+
+    const parts = [];
+    if (recipient) parts.push('Für: ' + recipient);
+    if (occasion) parts.push('Anlass: ' + occasion);
+    if (buyerEmail) parts.push('Kontakt-E-Mail: ' + buyerEmail);
+    if (message) parts.push('Nachricht: ' + message);
+    ppCustom.value = parts.join(' | ').slice(0, 255);
+  });
+})();
+</script>
+</body>
+</html>
