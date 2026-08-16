@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Massage Angebot &amp; Preise | SpaOase Faszien Massagen Wiesbaden</title>
+<meta name="description" content="Faszien Massagen und Wellness Relax Massagen in Wiesbaden. Alle Anwendungen, Dauer und Preise auf einen Blick.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .offer-hero{ max-width:900px; margin:0 auto; padding:180px 24px 20px; text-align:center; }
+  .offer-hero h1{ font-size:clamp(2.4rem,4.4vw,3.4rem); margin:14px 0 20px; }
+  .offer-hero p{ color:var(--ink-soft); max-width:620px; margin:0 auto; font-weight:300; line-height:1.7; }
+
+  .offer-wrap{ max-width:1100px; margin:70px auto 0; padding:0 5vw; display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+  .offer-card{
+    background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:44px 38px;
+    transition:transform .5s var(--ease), box-shadow .5s var(--ease);
+  }
+  .offer-card:hover{ transform:translateY(-8px); box-shadow:var(--shadow-soft); }
+  .offer-card h2{ font-size:1.5rem; margin-bottom:10px; }
+  .offer-card .offer-sub{ color:var(--terracotta); font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; margin-bottom:18px; display:block; }
+  .offer-card .offer-desc{ color:var(--ink-soft); font-weight:300; line-height:1.7; margin-bottom:28px; }
+  .offer-card .offer-zones{ font-size:.85rem; color:var(--ink-soft); margin-bottom:28px; padding-bottom:28px; border-bottom:1px solid var(--line); }
+  .offer-card .offer-zones strong{ color:var(--ink); font-weight:500; }
+
+  .price-list{ display:flex; flex-direction:column; gap:0; }
+  .price-row{
+    display:flex; justify-content:space-between; align-items:baseline; padding:14px 0;
+    border-bottom:1px dashed var(--line); font-family:var(--ff-serif);
+  }
+  .price-row:last-child{ border-bottom:none; }
+  .price-row .duration{ color:var(--ink); font-size:1.05rem; }
+  .price-row .price{ color:var(--gold); font-size:1.2rem; }
+
+  .offer-note{ max-width:760px; margin:70px auto; padding:0 24px; text-align:center; color:var(--ink-soft); font-size:.85rem; font-weight:300; }
+  .offer-note p{ margin-bottom:10px; }
+
+  .offer-cta{ text-align:center; margin:20px auto 100px; }
+
+  @media (max-width:900px){ .offer-wrap{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">Spa<em>Oase</em></span>
+      <span class="logo-sub">Faszien Massagen &middot; Wiesbaden</span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html#ueber">Über uns</a>
+      <a href="massage-angebot.html">Angebot &amp; Preise</a>
+      <a href="index.html#erlebnis">Erlebnis</a>
+      <a href="index.html#gutschein">Gutschein</a>
+      <a href="index.html#kontakt">Kontakt</a>
+    </nav>
+    <a href="https://app.cituro.com/booking/faszien-massagen-wiesbaden" target="_blank" rel="noopener" class="btn btn-primary btn-small nav-cta">Termin buchen</a>
+    <button class="burger" id="burger" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html#ueber">Über uns</a>
+  <a href="massage-angebot.html">Angebot &amp; Preise</a>
+  <a href="index.html#erlebnis">Erlebnis</a>
+  <a href="index.html#gutschein">Gutschein</a>
+  <a href="index.html#kontakt">Kontakt</a>
+  <a href="https://app.cituro.com/booking/faszien-massagen-wiesbaden" target="_blank" rel="noopener" class="btn btn-primary">Termin buchen</a>
+</div>
+
+<section class="offer-hero">
+  <p class="eyebrow center reveal-up">Angebot &amp; Preise</p>
+  <h1 class="reveal-up delay-1">Unser Massagen-Angebot in Wiesbaden.</h1>
+  <p class="reveal-up delay-2">Wir beraten Sie gerne, welche Anwendung und Intensität zu Ihnen passt &mdash; ob gezielte Faszienarbeit oder eine reine Wohlfühl-Auszeit.</p>
+</section>
+
+<section class="offer-wrap">
+  <div class="offer-card reveal-up">
+    <span class="offer-sub">Gezielt &amp; wirksam</span>
+    <h2>Faszien Massage</h2>
+    <p class="offer-desc">Mit oder ohne warmem Neutral-Öl. Präzise Grifftechniken lösen Verklebungen und lindern Verspannungen.</p>
+    <p class="offer-zones"><strong>Massagezonen:</strong> Nacken und Schulter, Lenden bis Nacken, Beine, Gesäß, Fuß</p>
+    <div class="price-list">
+      <div class="price-row"><span class="duration">45 Minuten</span><span class="price">55&nbsp;€</span></div>
+      <div class="price-row"><span class="duration">60 Minuten</span><span class="price">69&nbsp;€</span></div>
+      <div class="price-row"><span class="duration">75 Minuten</span><span class="price">79&nbsp;€</span></div>
+      <div class="price-row"><span class="duration">90 Minuten</span><span class="price">95&nbsp;€</span></div>
+      <div class="price-row"><span class="duration">120 Minuten</span><span class="price">125&nbsp;€</span></div>
+    </div>
+  </div>
+
+  <div class="offer-card reveal-up delay-1">
+    <span class="offer-sub">Genuss &amp; Entspannung</span>
+    <h2>Wellness Relax Massage</h2>
+    <p class="offer-desc">Mit warmem Neutral-Öl oder Aroma-Öl &mdash; ein wahrer Genuss für Körper, Geist und Seele zum Abschalten und Kraft gewinnen.</p>
+    <p class="offer-zones"><strong>Massagezonen:</strong> Nacken und Schulter, Lenden bis Nacken, Beine, Gesäß, Fuß</p>
+    <div class="price-list">
+      <div class="price-row"><span class="duration">45 Minuten</span><span class="price">50&nbsp;€</span></div>
+      <div class="price-row"><span class="duration">60 Minuten</span><span class="price">65&nbsp;€</span></div>
+      <div class="price-row"><span class="duration">90 Minuten</span><span class="price">85&nbsp;€</span></div>
+      <div class="price-row"><span class="duration">120 Minuten</span><span class="price">115&nbsp;€</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="offer-cta reveal-up">
+  <a href="https://app.cituro.com/booking/faszien-massagen-wiesbaden" target="_blank" rel="noopener" class="btn btn-primary">Termin online buchen</a>
+</div>
+
+<section class="offer-note">
+  <p>Alle Preise inklusive 19% MwSt.</p>
+  <p>SpaOase Faszien Massagen &middot; C. Kissener &middot; Röderstr. 5 &middot; 65183 Wiesbaden<br>Telefon: 0611&nbsp;&ndash;&nbsp;89056744 für Ihre Beratung, oder direkt online buchen.</p>
+  <p>Massagen während folgender Zeiten: Montag&ndash;Freitag, 10:00 bis 18:30 Uhr.</p>
+  <p>Eine kostenlose Stornierung von gebuchten und bestätigten Terminen ist nur 24 Stunden vorher möglich.</p>
+  <p>Bitte treffen Sie zu jedem Behandlungstermin 5 Minuten vorher ein. Bei Verspätungen können wir die Massage nicht mehr durchführen, wenn direkt eine nächste Behandlung im Anschluss an Ihren Termin gebucht ist.</p>
+  <p>Bei Verlust von Wertgutscheinen übernehmen wir keine Haftung und Ersatz.</p>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="logo-mark light">Spa<em>Oase</em></span>
+      <p>Faszien Massagen Wiesbaden &mdash; wir lieben, was wir tun.</p>
+    </div>
+    <a href="https://app.cituro.com/booking/faszien-massagen-wiesbaden" target="_blank" rel="noopener" class="btn btn-light">Termin buchen</a>
+  </div>
+  <div class="footer-links">
+    <a href="impressum.html">Impressum</a>
+    <a href="//www.spaoase.com/j/shop/terms">AGB</a>
+    <a href="//www.spaoase.com/j/shop/withdrawal">Widerrufsbelehrung</a>
+    <a href="//www.spaoase.com/j/shop/deliveryinfo">Liefer- &amp; Zahlungsbedingungen</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="index.html">Zur Startseite</a>
+  </div>
+  <p class="footer-copy">&copy; 2015&ndash;<span id="year"></span> SpaOase Faszien Massagen Wiesbaden</p>
+</footer>
+
+<a href="https://app.cituro.com/booking/faszien-massagen-wiesbaden" target="_blank" rel="noopener" class="float-cta">Termin buchen</a>
+
+<script src="script.js"></script>
+</body>
+</html>
